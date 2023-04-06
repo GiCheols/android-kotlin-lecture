@@ -20,13 +20,20 @@ class MainActivity : AppCompatActivity() {
         val radioCat = findViewById<RadioButton>(R.id.radioCat)
         val textView2 = findViewById<TextView>(R.id.textView2)
         val editTextTextPersonName = findViewById<EditText>(R.id.editTextTextPersonName)
+        val radioGroup = findViewById<RadioGroup>(R.id.radioGroup)
 
         imageView.scaleType = ImageView.ScaleType.CENTER
+        radioGroup.check(R.id.radioDog)
 
         button.setOnClickListener {
             val pet = "Dog:${radioDog.isChecked}, Cat:${radioCat.isChecked}"
             textView2.text = editTextTextPersonName.text
             Snackbar.make(it, pet, Snackbar.LENGTH_SHORT).show()
+
+            when(radioGroup.checkedRadioButtonId) {
+                R.id.radioDog -> println("radioDog")
+                R.id.radioCat -> println("radioCat")
+            }
         }
     }
 
