@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         // ViewModel
         val viewModel = ViewModelProvider(this)[MyViewModel::class.java]
+        val viewModel2 = ViewModelProvider(this, MyViewModel2Factory(10))[MyViewModel2::class.java]
 
         findViewById<TextView>(R.id.textView_count)?.text = getString(R.string.count_in_activity, count)
         findViewById<TextView>(R.id.textView_count_viewmodel)?.text = getString(R.string.count_in_ViewModel, viewModel.count)
