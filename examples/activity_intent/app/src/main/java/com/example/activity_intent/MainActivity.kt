@@ -5,71 +5,60 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
-import com.example.activity_intent.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
+import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
     private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
         Log.i(TAG, "$localClassName.onCreate")
 
-        binding.buttonSecondActivity.setOnClickListener {
+        findViewById<Button>(R.id.buttonSecondActivity)?.setOnClickListener {
             val intent = Intent(this, SecondActivity::class.java)
             startActivity(intent)
         }
 
-        binding.buttonDialActivity.setOnClickListener {
+        findViewById<Button>(R.id.buttonDialActivity)?.setOnClickListener {
             val implicitIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:114"))
             startActivity(implicitIntent)
         }
 
         val activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             val msg = it.data?.getStringExtra("ResultString") ?: ""
-            Snackbar.make(binding.root, "ActivityResult:${it.resultCode} $msg", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(findViewById(R.id.buttonThirdActivity), "ActivityResult:${it.resultCode} $msg", Snackbar.LENGTH_SHORT).show()
             Log.i(TAG, "ActivityResult:${it.resultCode} $msg")
         }
 
-        binding.buttonThirdActivity.setOnClickListener {
+        findViewById<Button>(R.id.buttonThirdActivity)?.setOnClickListener {
             val intent = Intent(this, ThirdActivity::class.java)
             intent.putExtra("UserDefinedExtra", "Hello")
-            // startActivityForResult(intent, request_code) // Deprecated
             activityResult.launch(intent)
         }
 
         // ViewModel
         val viewModel = ViewModelProvider(this)[MyViewModel::class.java]
 
-        binding.textViewCount.text = getString(R.string.count_in_activity, count)
-        binding.textViewCountViewmodel.text = getString(R.string.count_in_ViewModel, viewModel.count)
+        findViewById<TextView>(R.id.textView_count)?.text = getString(R.string.count_in_activity, count)
+        findViewById<TextView>(R.id.textView_count_viewmodel)?.text = getString(R.string.count_in_ViewModel, viewModel.count)
         viewModel.countLivedata.observe(this) {
-            binding.textViewLivedata.text = getString(R.string.count_in_ViewModel_LiveData, it)
+            findViewById<TextView>(R.id.textView_livedata)?.text = getString(R.string.count_in_ViewModel_LiveData, it)
         }
 
-        binding.buttonIncr.setOnClickListener {
+        findViewById<Button>(R.id.button_incr)?.setOnClickListener {
             count++
             viewModel.increaseCount()
-            binding.textViewCount.text = getString(R.string.count_in_activity, count)
-            binding.textViewCountViewmodel.text = getString(R.string.count_in_ViewModel, viewModel.count)
+            findViewById<TextView>(R.id.textView_count)?.text = getString(R.string.count_in_activity, count)
+            findViewById<TextView>(R.id.textView_count_viewmodel)?.text = getString(R.string.count_in_ViewModel, viewModel.count)
         }
     }
-
-    /* Deprecated
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == request_code) {
-            val msg = data?.getStringExtra("ResultString") ?: ""
-            Snackbar.make(binding.root, "ActivityResult:$resultCode $msg", Snackbar.LENGTH_SHORT).show()
-            Log.i(TAG, "ActivityResult:$resultCode $msg")
-        }
-    } */
 
     override fun onStart() {
         super.onStart()
