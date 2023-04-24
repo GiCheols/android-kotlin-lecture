@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import com.example.fragment_test.databinding.ActivityMainBinding
 
 class ExampleFragment : Fragment(R.layout.example_fragment)
 
@@ -16,24 +16,23 @@ class ExampleFragment2 : Fragment(R.layout.example_fragment2)
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        binding.buttonAdd.setOnClickListener {
+        findViewById<Button>(R.id.buttonAdd)?.setOnClickListener {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 add(R.id.fragment, ExampleFragment2::class.java, null)
             }
         }
 
-        binding.buttonReplace.setOnClickListener {
+        findViewById<Button>(R.id.buttonReplace)?.setOnClickListener {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace(R.id.fragment, ExampleFragment2::class.java, null)
             }
         }
 
-        binding.buttonReplaceBack.setOnClickListener {
+        findViewById<Button>(R.id.buttonReplaceBack)?.setOnClickListener {
             supportFragmentManager.commit {
                 setReorderingAllowed(true)
                 replace(R.id.fragment, ExampleFragment2::class.java, null)

@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 
-
 class ListFruitsFragment : Fragment(R.layout.list_fruits) {
     private val viewModel: MyViewModel by activityViewModels()
 
