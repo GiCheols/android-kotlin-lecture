@@ -6,14 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.example.navigationui.databinding.*
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -21,12 +23,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val myViewModel: MyViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentHomeBinding.bind(view)
         myViewModel.nameLiveData.observe(viewLifecycleOwner) {
-            binding.textViewName.text = it
+            view.findViewById<TextView>(R.id.textViewName)?.text = it
         }
         // popup menu
-        binding.textViewPopup.setOnClickListener {
+        view.findViewById<TextView>(R.id.textViewPopup)?.setOnClickListener {
             showPopup(it)
         }
     }
@@ -51,11 +52,10 @@ class Page1Fragment : Fragment(R.layout.fragment_page1) {
     private val myViewModel: MyViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentPage1Binding.bind(view)
         myViewModel.nameLiveData.observe(viewLifecycleOwner) {
-            binding.textViewName.text = it
+            view.findViewById<TextView>(R.id.textViewName)?.text = it
         }
-        binding.button.setOnClickListener {
+        view.findViewById<Button>(R.id.button)?.setOnClickListener {
             findNavController().navigate(R.id.action_page1Fragment_to_page2Fragment)
         }
     }
@@ -65,9 +65,8 @@ class Page2Fragment : Fragment(R.layout.fragment_page2) {
     private val myViewModel: MyViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentPage2Binding.bind(view)
         myViewModel.nameLiveData.observe(viewLifecycleOwner) {
-            binding.textViewName.text = it
+            view.findViewById<TextView>(R.id.textViewName)?.text = it
         }
     }
 }
@@ -76,9 +75,8 @@ class Page3Fragment : Fragment(R.layout.fragment_page3) {
     private val myViewModel: MyViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentPage3Binding.bind(view)
         myViewModel.nameLiveData.observe(viewLifecycleOwner) {
-            binding.textViewName.text = it
+            view.findViewById<TextView>(R.id.textViewName)?.text = it
         }
     }
 }
@@ -112,19 +110,17 @@ class MyBottomSheetDialog : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = MyBottomDialogBinding.inflate(inflater, container, false).root
+    ) = inflater.inflate(R.layout.my_bottom_dialog, container,false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val binding = MyBottomDialogBinding.bind(view)
+        view.findViewById<EditText>(R.id.editTextName)?.setText(myViewModel.nameLiveData.value)
 
-        binding.editTextName.setText(myViewModel.nameLiveData.value)
-
-        binding.buttonOk.setOnClickListener {
-            myViewModel.nameLiveData.value = binding.editTextName.text.toString()
+        view.findViewById<Button>(R.id.buttonOk)?.setOnClickListener {
+            myViewModel.nameLiveData.value = view.findViewById<EditText>(R.id.editTextName)?.text.toString()
             dismiss()
         }
 
-        binding.buttonCancel.setOnClickListener {
+        view.findViewById<Button>(R.id.buttonCancel)?.setOnClickListener {
             dismiss()
         }
 
