@@ -110,7 +110,10 @@ class MyBottomSheetDialog : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.my_bottom_dialog, container,false)
+    ) : View {
+        isCancelable = false
+        return inflater.inflate(R.layout.my_bottom_dialog, container,false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.findViewById<EditText>(R.id.editTextName)?.setText(myViewModel.nameLiveData.value)
