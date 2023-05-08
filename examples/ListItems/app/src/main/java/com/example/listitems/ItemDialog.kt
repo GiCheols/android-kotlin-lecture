@@ -18,7 +18,7 @@ class ItemDialog(private val itemPos: Int = -1): BottomSheetDialogFragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.item_dialog_layout, container, false)
+    ): View = inflater.inflate(R.layout.item_dialog_layout, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val spinner = view.findViewById<Spinner>(R.id.spinner)
