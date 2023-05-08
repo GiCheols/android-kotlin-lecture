@@ -7,27 +7,27 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.listitems.databinding.ActivityMainBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
-    private val binding by lazy {
-        ActivityMainBinding.inflate(layoutInflater)
-    }
-
     private val viewModel by viewModels<MyViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        binding.floatingActionButton.setOnClickListener {
+        val floatingActionButton = findViewById<FloatingActionButton>(R.id.floatingActionButton)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+
+        floatingActionButton.setOnClickListener {
             ItemDialog().show(supportFragmentManager, "ItemDialog")
         }
 
         val adapter = CustomAdapter(viewModel)
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.setHasFixedSize(true)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
 
         viewModel.itemsListData.observe(this) {
             //adapter.notifyDataSetChanged()
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             ItemDialog(it).show(supportFragmentManager, "ItemDialog")
         }
 
-        registerForContextMenu(binding.recyclerView)
+        registerForContextMenu(recyclerView)
     }
 
     override fun onCreateContextMenu(
