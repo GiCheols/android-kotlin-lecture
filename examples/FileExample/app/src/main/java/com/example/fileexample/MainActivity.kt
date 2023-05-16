@@ -6,13 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.fragment.app.DialogFragment
 import androidx.preference.PreferenceManager
-import com.example.fileexample.databinding.ActivityMainBinding
 
 class ShowValueDialog(private val msg: String) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -24,40 +26,47 @@ class ShowValueDialog(private val msg: String) : DialogFragment() {
 }
 
 class MainActivity : AppCompatActivity() {
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val viewModel by viewModels<MyViewModel> { MyViewModelFactory(this) }
     private val pref by lazy { getSharedPreferences("MY-SETTINGS", 0) }
     private lateinit var activityForResult: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        binding.buttonWriteIn.setOnClickListener {
-            viewModel.valueInternal = binding.editText.text.toString()
+        val editText = findViewById<EditText>(R.id.editText)
+        val buttonWriteIn = findViewById<Button>(R.id.buttonWriteIn)
+        val buttonReadIn = findViewById<Button>(R.id.buttonReadIn)
+        val buttonWriteExt = findViewById<Button>(R.id.buttonWriteExt)
+        val buttonReadExt = findViewById<Button>(R.id.buttonReadExt)
+        val buttonWritePref = findViewById<Button>(R.id.buttonWritePref)
+        val buttonReadPref = findViewById<Button>(R.id.buttonReadPref)
+
+        buttonWriteIn.setOnClickListener {
+            viewModel.valueInternal = editText.text.toString()
         }
 
-        binding.buttonReadIn.setOnClickListener {
+        buttonReadIn.setOnClickListener {
             ShowValueDialog(viewModel.valueInternal).show(supportFragmentManager, "ShowValueDialog")
         }
 
-        binding.buttonWriteExt.setOnClickListener {
-            viewModel.valueExternal = binding.editText.text.toString()
+        buttonWriteExt.setOnClickListener {
+            viewModel.valueExternal = editText.text.toString()
 
         }
-        binding.buttonReadExt.setOnClickListener {
+        buttonReadExt.setOnClickListener {
             ShowValueDialog(viewModel.valueExternal).show(supportFragmentManager, "ShowValueDialog")
         }
 
-        binding.buttonWritePref.setOnClickListener {
+        buttonWritePref.setOnClickListener {
             pref.edit {
-                putString("key", binding.editText.text.toString())
+                putString("key", editText.text.toString())
 
                 apply()
             }
         }
 
-        binding.buttonReadPref.setOnClickListener {
+        buttonReadPref.setOnClickListener {
             ShowValueDialog(pref.getString("key", "") ?: "").show(supportFragmentManager, "ShowValueDialog")
         }
     }
@@ -78,7 +87,8 @@ reply: $reply
 sync: $sync
 attachment: $attachment
 """
-        binding.textViewSettings.text = str
+        val textViewSettings = findViewById<TextView>(R.id.textViewSettings)
+        textViewSettings.text = str
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
