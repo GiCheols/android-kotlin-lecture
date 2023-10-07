@@ -16,7 +16,10 @@ class TransitionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityTransitionBinding.inflate(layoutInflater)
+        // root == R.layout.activity_transition
         setContentView(binding.root)
+        // sceneRoot = findViewById<FrameLayout>(R.id.scene_root)
+        // scene 객체 생성
         scene1 = Scene.getSceneForLayout(binding.sceneRoot, R.layout.scene_1, this)
         scene2 = Scene.getSceneForLayout(binding.sceneRoot, R.layout.scene_2, this)
     }
@@ -27,6 +30,7 @@ class TransitionActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // TransitionManager.go() 메소드를 사용해야 씬 지정을 해야 화면이 나타남
         when (item.itemId) {
             R.id.scene_1 -> TransitionManager.go(scene1, ChangeBounds())
             R.id.scene_2 -> TransitionManager.go(scene2, Fade().addListener(Scene1to2TransitionListener()))

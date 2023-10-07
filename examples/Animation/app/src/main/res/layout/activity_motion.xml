@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--모션 정의 레이아웃 XML-->
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,6 +8,7 @@
     app:layoutDescription="@xml/activity_motion_scene"
     app:motionDebug="SHOW_ALL"
     tools:context=".MotionActivity">
+    <!--위 layoutDescription이 모션 씬을 정의한 레이아웃-->
 
     <Button
         android:id="@+id/button"

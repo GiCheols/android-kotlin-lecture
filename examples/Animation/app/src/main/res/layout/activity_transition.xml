@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--메인 레이아웃 XML, Transition 예제-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -18,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
+        <!-- <include> 태그를 활용해 처음 보여줄 scene 지정-->
         <include layout="@layout/scene_1" />
     </FrameLayout>
 

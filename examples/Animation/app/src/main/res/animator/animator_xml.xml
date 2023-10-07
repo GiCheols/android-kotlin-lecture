@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--set == AnimatorSet
+    ordering 속성으로 play()와 같은 효과
+    아래 예는 set이 두 개임-->
 <set android:ordering="sequentially" xmlns:android="http://schemas.android.com/apk/res/android">
     <set android:ordering="together">
+        <!--objectAnimator-->
         <objectAnimator
             android:propertyName="translationX"
             android:duration="1500"

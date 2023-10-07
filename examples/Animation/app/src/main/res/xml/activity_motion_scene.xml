@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--Motion 씬 정의 XML
+    dragDirection에서 지정한 방향으로 드래그
+    이 때 애니메이션 동작, 드래그한 길이만큼 애니메이션-->
 <MotionScene 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
@@ -9,12 +12,17 @@
         motion:duration="1000">
        <KeyFrameSet>
        </KeyFrameSet>
+        <!--OnSwipe, 아래 방향으로 드래그 시 애니메이션 동작-->
         <OnSwipe motion:touchAnchorId="@id/button"
             motion:dragDirection="dragDown" />
         <OnClick motion:targetId="@id/button"
             motion:clickAction="toggle" />
     </Transition>
 
+    <!--버튼이 Parent의 Top에 붙어 있다가
+        Bottom으로 붙는 애니메이션이 연출됨
+        거꾸로 할 때는 애니메이션이 반대로 연출
+        touchAnchorId를 버튼으로 지정했기 때문에 버튼이 중간만큼만 가면 그만큼만 애니메이션-->
     <ConstraintSet android:id="@+id/start">
         <Constraint
             android:id="@+id/button"
