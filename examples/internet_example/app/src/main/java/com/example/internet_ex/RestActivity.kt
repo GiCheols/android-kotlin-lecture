@@ -12,12 +12,18 @@ import retrofit2.http.Path
 import java.lang.StringBuilder
 
 data class Owner(val login: String)
+// 이름이 매우 중요. 이름을 기준으로 값을 가져오기 때문
 data class Repo(val name: String, val owner: Owner, val url: String)
 data class Contributor(val login: String, val contributions: Int)
 
+// Retrofit - JSON
+// Repo 클래스와 RestApi 인터페이스
+// moshiConverter가 알아서 List로 변환함
 interface RestApi {
     @GET("users/{user}/repos")
     suspend fun listRepos(@Path("user") user: String): List<Repo>
+    // 아래 리스트 중 필요한 프로퍼티만 추출 필요
+    // 앞선 예제들은 이러한 문자열들의 파싱이 필요함 -- 번거로움
     /*
     [
         {
@@ -63,10 +69,14 @@ class MyViewModel : ViewModel() {
     }
 
     fun refreshData() {
+        // 데이터 가져오기, viewModel 내에서는 viewModelScope를 사용함
         viewModelScope.launch {
             try {
                 //val c = api.contributors("square", "retrofit")
                 val repos = api.listRepos("jyheo")
+                // 직접 UI를 업데이트하지 않음
+                // response는 MutableLiveData
+                // MutableLiveData의 Observer에게 데이터 업데이트시 알림
                 response.value = StringBuilder().apply {
                     repos.forEach {
                         append(it.name)
@@ -81,13 +91,17 @@ class MyViewModel : ViewModel() {
         }
     }
 
+    // Retrofit - JSON
     private fun retrofitInit() {
+        // JSON 변환기 지정
         val retrofit = Retrofit.Builder()
             .baseUrl(baseURL)
+            // Converter를 JSON Converter 를 지정
             .addConverterFactory(MoshiConverterFactory.create())
 
             .build()
 
+        // RestApi 인터페이스
         api = retrofit.create(RestApi::class.java)
     }
 }

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- 설치시에만 확인 필요한 일반 권한 / 따라서 동적 권한 확인 코드는 불필요 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 현재 네트워크 접속 상태를 알아보는 권한 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!-- usesCleartextTraffic 속성은 http를 사용하기 위한 속성 -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,11 +28,16 @@
             </intent-filter>
         </activity>
 
+        <!-- getUriforFile을 위한 <provider> 태그
+        name: 고정된 이름, 패키지 이름, 프로바이더를 이름이 다른 URI들이 사용 가능 여부
+        Permission이 true 인 URI들은 사용 가능
+        사용 안하면 implict intent ActionView로 열려고 해도 열 수 없음(권한 없어서)-->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.internet_ex.file_provider"
             android:exported="false"
             android:grantUriPermissions="true">
+            <!-- 어떤 경로에 저장할지 알려주는 <meta-data> -->
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
